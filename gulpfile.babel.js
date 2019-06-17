@@ -2,6 +2,8 @@ import gulp from 'gulp';
 import sass from 'gulp-sass';
 import autoprefixer from 'gulp-autoprefixer';
 import minifyCSS from 'gulp-csso';
+import del from 'del';
+import bro from 'gulp-browserify';
 
 sass.compiler = require('node-sass');
 
@@ -10,28 +12,43 @@ const paths = {
         src : 'assets/scss/styles.scss',
         dest : 'src/static/styles',
         watch : 'assets/scss/**/*.scss'
+    },
+    js : {
+        src : 'asstes/js/main.js',
+        dest : 'src/static/js',
+        watch : 'assets/js/**/*.js'
     }
 };
 
-function styles() {
-    return gulp
-        .src(paths.styles.src)
-        .pipe(sass())
-        .pipe(
-            autoprefixer({
-                // overrideBrowserslist : ['last 2 versions'],
-                browsers : ['last 2 versions'],
-                cascade: false
-            })
-        )
-        .pipe(minifyCSS())
-        .pipe(gulp.dest(paths.styles.dest));
-};
+const styles = () => (
+    gulp
+    .src(paths.styles.src)
+    .pipe(sass())
+    .pipe(
+        autoprefixer({
+            // overrideBrowserslist : ['last 2 versions'],
+            browsers : ['last 2 versions'],
+            cascade: false
+        })
+    )
+    .pipe(minifyCSS())
+    .pipe(gulp.dest(paths.styles.dest))
+);
 
-function watchFiles() {
+const js = () => (
+    gulp
+    .src(paths.js.src)
+    .pipe(bro())
+    .pipe(gulp.dest(paths.js.dest))
+);
+
+const clean = () => del('src/static');
+
+const watchFiles = () => {
     gulp.watch(paths.styles.watch, styles);
+    gulp.watch(paths.js.watch, js);
 };
 
-const dev = gulp.series([styles, watchFiles]);
+const dev = gulp.series(clean, styles, js, watchFiles);
 
 export default dev;
