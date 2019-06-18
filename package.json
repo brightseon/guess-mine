@@ -8,6 +8,7 @@
   "license": "MIT",
   "dependencies": {
     "@babel/node": "^7.4.5",
+    "babelify": "^10.0.0",
     "del": "^4.1.1",
     "express": "^4.17.1",
     "gulp": "^4.0.2",
@@ -22,7 +23,7 @@
     "socket.io": "^2.2.0"
   },
   "scripts": {
-    "dev:server": "nodemon --exec babel-node src/server.js",
+    "dev:server": "nodemon --exec babel-node src/server --ignore assets/ --ignore src/static",
     "dev:assets": "gulp"
   },
   "devDependencies": {
