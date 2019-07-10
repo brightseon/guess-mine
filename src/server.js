@@ -22,4 +22,4 @@ const server = app.listen(PORT, handleListening);
 
 const io = socketIO.listen(server);
 
-io.on('connect', socket => socketController(socket));
+io.on('connect', socket => socketController(socket, io));
