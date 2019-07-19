@@ -12,7 +12,7 @@ canvas.width = CANVAS_SIZE;
 canvas.height = CANVAS_SIZE;
 
 ctx.fillStyle = 'white';
-ctx.fillStyle(0, 0, CANVAS_SIZE, CANVAS_SIZE);
+ctx.fillRect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
 ctx.strokeStyle = INITIAL_COLOR;
 ctx.fillStyle = INITIAL_COLOR;
 ctx.lineWidth = 2.5;
@@ -20,11 +20,11 @@ ctx.lineWidth = 2.5;
 let painting = false;
 let filling = false;
 
-function stopPating() {
+const stopPating = () => {
     painting = false;
 };
 
-function startPainting() {
+const startPainting = () => {
     painting = true;
 };
 
@@ -45,7 +45,7 @@ const strokePath = (x, y, color = null) => {
     ctx.strokeStyle = currentColor;
 };
 
-function onMouseMove(event) {
+const onMouseMove = event => {
     const x = event.offsetX;
     const y = event.offsetY;
 
@@ -58,14 +58,14 @@ function onMouseMove(event) {
     }
 };
 
-function handleColorClick(event) {
+const handleColorClick = event => {
     const color = event.target.style.backgroundColor;
 
     ctx.strokeStyle = color;
     ctx.fillStyle = color;
 };
 
-function handleModeClick() {
+const handleModeClick = () => {
     if(filling === true) {
         filling = false;
         mode.innerText = 'Fill';
@@ -86,14 +86,14 @@ const fill = (color = null) => {
     ctx.fillStyle = currentColor;
 };
 
-function handleCanvasClick() {
+const handleCanvasClick = () => {
     if(filling) {
         fill();
         getSocket().emit(window.events.fill, { color : ctx.fillStyle });
     }
 };
 
-function handleCM(event) {
+const handleCM = event => {
     event.preventDefault();
 };
 
