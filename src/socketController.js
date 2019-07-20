@@ -17,8 +17,13 @@ const socketController = (socket, io) => {
             
             const leader = chooseLeader();
             word = chooseWord();
+            io.to(leader.id).emit(events.leaderNotif, { word });
+            superBroadcast(events.gameStarted);
         }
     };
+    const endGame = () => {
+        inProgress = false;
+    }
 
     socket.on(events.setNickname, ({ nickname }) => {
         socket.nickname = nickname;
@@ -26,10 +31,19 @@ const socketController = (socket, io) => {
         broadcast(events.newUser, { nickname });
         sendPlayerUpdate();
         startGame();
+
+        if(sockets.length === 1) {
+            startGame();
+        }
     });
 
     socket.on(events.disconnect, () => {
         sockets = sockets.filter(aSocket => aSocket.id !== socket.id);
+        
+        if(sockets.length === 1) {
+            endGame();
+        }
+
         broadcast(events.disconnected, { nickname : socket.nickname });
         sendPlayerUpdate();
     });
