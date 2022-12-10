@@ -10,7 +10,7 @@
     "@babel/node": "^7.4.5",
     "babelify": "^10.0.0",
     "del": "^4.1.1",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "gulp": "^4.0.2",
     "gulp-autoprefixer": "^6.1.0",
     "gulp-browserify": "^0.5.1",
